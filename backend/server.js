@@ -1,12 +1,17 @@
 const express = require('express')
-const mongoose = require('mongoose') 
+const mongoose = require('mongoose')
+const requireDir = require('require-dir')
 
 const app = express()
 
-mongoose.connect('mongodb://localhost:27017/jsHunt', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(
+    'mongodb://localhost:27017/jsHunt',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+requireDir('./src/models')
 
-app.get('/', (req, res) => {
-    return res.send('Olá')
-})
+app.use('/api', require('./src/routes'))
 
 app.listen(3000)
